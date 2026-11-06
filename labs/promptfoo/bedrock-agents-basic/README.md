@@ -6,7 +6,7 @@ This example uses the OpenAI Agents SDK with GPT-6 Luna on **Amazon Bedrock Runt
 
 Requires Node.js 24 and AWS access to `us.openai.gpt-6-luna` in `us-east-1`. The agent uses Runtime Responses; the rubric grader uses Runtime Converse. IAM must permit the model/profile and any default-project authorization required by Runtime Responses.
 
-From the parent `evaluate-ai-applications-guided-lab` directory:
+From the parent `labs/promptfoo/` directory:
 
 ```bash
 nvm use 24
