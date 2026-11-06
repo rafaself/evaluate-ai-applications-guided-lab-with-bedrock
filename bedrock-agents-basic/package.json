@@ -1,0 +1,36 @@
+{
+  "name": "@promptfoo/bedrock-agents-basic-example",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "description": "D&D agent using the OpenAI Agents SDK with GPT-6 Luna on Amazon Bedrock Runtime",
+  "type": "module",
+  "scripts": {
+    "eval": "promptfoo eval --env-file ../.env",
+    "view": "promptfoo view",
+    "validate": "promptfoo validate config -c promptfooconfig.yaml"
+  },
+  "dependencies": {
+    "@openai/agents": "0.14.1",
+    "promptfoo": "0.125.1",
+    "zod": "^4.3.6",
+    "openai": "7.51.0",
+    "@aws-sdk/credential-provider-node": "3.972.93",
+    "@smithy/hash-node": "4.5.2",
+    "@smithy/signature-v4": "5.7.5"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "overrides": {
+    "@openai/agents": {
+      "openai": "$openai"
+    },
+    "@openai/agents-core": {
+      "openai": "$openai"
+    },
+    "@openai/agents-openai": {
+      "openai": "$openai"
+    }
+  }
+}

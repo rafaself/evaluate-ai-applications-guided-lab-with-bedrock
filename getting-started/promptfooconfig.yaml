@@ -1,0 +1,23 @@
+description: 'Getting started - Promptfoo with Amazon Bedrock'
+
+prompts:
+  - 'Convert the following English text to {{language}}: {{input}}'
+
+providers:
+  - bedrock:converse:us.openai.gpt-6.1-sol
+  - bedrock:converse:us.openai.gpt-6-luna
+
+tests:
+  - vars:
+      language: French
+      input: Hello world
+    assert:
+      - type: contains
+        value: 'Bonjour le monde'
+
+  - vars:
+      language: Spanish
+      input: Where is the library?
+    assert:
+      - type: icontains
+        value: 'Dónde está la biblioteca'

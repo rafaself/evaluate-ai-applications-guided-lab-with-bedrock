@@ -1,0 +1,23 @@
+# Local credentials and AWS configuration
+.env
+.env.*
+!.env.example
+.aws/
+
+# Dependencies and local environments
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Promptfoo state, generated results, and logs
+.promptfoo/
+results/
+outputs/
+results.json
+*-results.json
+*.log
+*.db
+*.db-shm
+*.db-wal
+.DS_Store
