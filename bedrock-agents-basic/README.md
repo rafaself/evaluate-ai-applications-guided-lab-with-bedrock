@@ -1,10 +1,10 @@
 # Bedrock agents basic — D&D Dungeon Master
 
-This example keeps the OpenAI Agents SDK for its local tool-calling loop, but sends GPT-6 Luna requests to **Amazon Bedrock Runtime**, using AWS IAM credentials. No OpenAI API key or managed Bedrock Agent deployment is required.
+This example uses the OpenAI Agents SDK with GPT-6 Luna on **Amazon Bedrock Runtime**. Game tools execute locally. No OpenAI API key or managed Bedrock Agent deployment is required.
 
-## Setup
+## Setup and execution
 
-Requires Node.js 24 and AWS access to `us.openai.gpt-6-luna` in `us-east-1`. The agent uses the Runtime Responses API; the rubric grader uses Runtime Converse. IAM must permit the selected model/profile and any default-project authorization required by the Runtime Responses API.
+Requires Node.js 24 and AWS access to `us.openai.gpt-6-luna` in `us-east-1`. The agent uses Runtime Responses; the rubric grader uses Runtime Converse. IAM must permit the model/profile and any default-project authorization required by Runtime Responses.
 
 From the parent `evaluate-ai-applications-guided-lab` directory:
 
@@ -15,26 +15,33 @@ npm --prefix bedrock-agents-basic run validate
 npm --prefix bedrock-agents-basic run eval
 ```
 
-The eval script loads the existing parent `.env`. It can contain `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, optional `AWS_SESSION_TOKEN`, and `AWS_BEDROCK_REGION=us-east-1`. The standard AWS credential chain also supports named profiles and roles. Do not commit or share credentials.
+The eval script loads the parent `.env`. Use AWS access keys (and `AWS_SESSION_TOKEN` for temporary credentials), a named profile, or the standard AWS credential chain. `AWS_BEDROCK_REGION` defaults to `us-east-1`. Do not commit credentials. Evaluation makes paid model and grading calls.
 
-Alternatively, run the local CLI from the parent directory:
+## How tool verification works
 
-```bash
-./bedrock-agents-basic/node_modules/.bin/promptfoo eval \
-  -c bedrock-agents-basic/promptfooconfig.yaml --env-file .env
+`agents/dungeon-master-agent.ts` defines the agent and a small Promptfoo provider. After `run()`, the provider matches SDK tool-call items with their completed tool results by call ID and returns:
+
+```typescript
+{
+  output: result.finalOutput,
+  metadata: {
+    toolCalls: [{ callId, name, arguments, result }]
+  }
+}
 ```
 
-Evaluation makes paid model and grading calls. Add `--no-cache` only to force fresh calls.
+Promptfoo's JavaScript assertions inspect `context.metadata.toolCalls`. Missing metadata, a missing call, or incorrect required arguments fails the check; mentioning a tool in the answer does not count. No tracing server or additional port is needed. SDK export to OpenAI is disabled.
 
-The Agents SDK stays on 0.14.1 because Promptfoo 0.125.1 requires that version. Its OpenAI client dependency is overridden to the same pinned 7.51.0 client used by the agent, which supports native Runtime endpoint selection and signing. The local tool round trip is checked against this combination.
+| Scenario | Required tool execution |
+| --- | --- |
+| Dragon attack, goblin attack, trap, ability check | `roll_dice` with `sides: 20`, `count: 1` |
+| Character stats | `check_character_stats` with `playerId: player1` |
+| Inventory or amulet | `check_inventory` with `playerId: player1` |
+| Entering the crypt | `describe_scene` with `location: crypt` |
+| Short rest | No `roll_dice` before the player agrees to spend Hit Dice |
 
-## How it works
+Other arguments, call order, and additional relevant tools are allowed. Damage rolls are not mandatory when an attack misses. Existing response-content assertions and model rubrics remain in place. The checks verify calls and selected arguments; they do not validate every game mechanic or guarantee all returned values were used correctly in the final text.
 
-- `agents/dungeon-master-agent.ts` exports an Agents SDK agent whose `OpenAIResponsesModel` uses the OpenAI client's native Bedrock provider, the Runtime endpoint, and AWS SigV4 signing. The model is `us.openai.gpt-6-luna`.
-- `tools/game-tools.ts` keeps the dice, inventory, character-stat, and scene tools. Tool execution stays local and the SDK handles subsequent model turns.
-- `promptfooconfig.yaml` selects `openai:agents:dungeon-master` to run that local SDK agent. This provider name describes the runner, not the backend used by the exported model. The runner sets `apiKeyRequired: false` because the exported model authenticates with AWS IAM rather than an OpenAI API key. Its rubric judge is explicitly `bedrock:converse:us.openai.gpt-6-luna`.
-- Each test starts a fresh agent run. Inventory, character data, and scenes are fixtures; game state is not persisted.
+Each test starts a fresh run. Inventory, character data, and scenes are fixtures; game state is not persisted. Tool metadata and token usage are saved with Promptfoo's results. The agent uses `store: false`.
 
-The agent uses `store: false`. SDK tracing is disabled so this example does not export traces to OpenAI.
-
-Official integration reference: [OpenAI on Amazon Bedrock](https://developers.openai.com/api/docs/guides/amazon-bedrock).
+The SDK and client versions are pinned; the OpenAI override keeps SDK packages on the same Runtime-capable client. Official integration reference: [OpenAI on Amazon Bedrock](https://developers.openai.com/api/docs/guides/amazon-bedrock).

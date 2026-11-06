@@ -1,4 +1,5 @@
-import { Agent, OpenAIResponsesModel, setTracingDisabled } from '@openai/agents';
+import { Agent, OpenAIResponsesModel, run, setTracingDisabled } from '@openai/agents';
+import type { ApiProvider, CallApiContextParams, CallApiOptionsParams, ProviderOptions } from 'promptfoo';
 import OpenAI from 'openai';
 import { bedrock } from 'openai/providers/bedrock/aws';
 import { defaultProvider } from '@aws-sdk/credential-provider-node';
@@ -52,10 +53,66 @@ Reference character abilities and inventory items when relevant. Make every mome
 /**
  * Dungeon Master agent for epic D&D adventures
  */
-export default new Agent({
+const agent = new Agent({
   name: 'Dungeon Master',
   instructions,
   model: new OpenAIResponsesModel(client, 'us.openai.gpt-6-luna'),
   modelSettings: { store: false, maxTokens: 2048, reasoning: { effort: 'low' } },
   tools: gameTools,
 });
+
+/** Expose completed tool executions alongside the final answer for Promptfoo assertions. */
+export default class DungeonMasterProvider implements ApiProvider {
+  private readonly maxTurns: number;
+
+  constructor(options: ProviderOptions = {}) {
+    this.maxTurns = options.config?.maxTurns ?? 20;
+  }
+
+  id() {
+    return 'bedrock:dungeon-master';
+  }
+
+  async callApi(prompt: string, context?: CallApiContextParams, options?: CallApiOptionsParams) {
+    const result = await run(agent, prompt, {
+      context: context?.vars,
+      maxTurns: this.maxTurns,
+      signal: options?.abortSignal,
+    });
+
+    const toolCalls = result.newItems.flatMap(item => {
+      if (item.type !== 'tool_call_output_item' || item.rawItem.type !== 'function_call_result') return [];
+
+      const completed = item.rawItem;
+
+      if (completed.status !== 'completed') return [];
+
+      const call = result.newItems.find(candidate =>
+        candidate.type === 'tool_call_item' && candidate.rawItem.type === 'function_call' &&
+        candidate.rawItem.callId === completed.callId);
+
+      if (!call || call.type !== 'tool_call_item' || call.rawItem.type !== 'function_call') return [];
+
+      return [{
+        callId: completed.callId,
+        name: call.rawItem.name,
+        arguments: JSON.parse(call.rawItem.arguments),
+        result: item.output,
+      }];
+    });
+
+    const usage = result.runContext.usage;
+
+    return {
+      output: result.finalOutput ?? '',
+      metadata: { toolCalls },
+      tokenUsage: {
+        prompt: usage.inputTokens,
+        completion: usage.outputTokens,
+        total: usage.totalTokens,
+        numRequests: usage.requests,
+      },
+      cached: false,
+    };
+  }
+}

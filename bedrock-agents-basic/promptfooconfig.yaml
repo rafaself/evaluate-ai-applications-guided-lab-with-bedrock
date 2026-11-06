@@ -5,14 +5,10 @@ prompts:
   - '{{query}}'
 
 providers:
-  - id: openai:agents:dungeon-master
+  - id: file://./agents/dungeon-master-agent.ts
     config:
-      apiKeyRequired: false  # The exported agent authenticates with AWS IAM.
-      agent: file://./agents/dungeon-master-agent.ts
       maxTurns: 20
-      tracing: false  # No export to the OpenAI tracing service
 
-# openai:agents selects the local SDK runner; the exported agent uses Bedrock.
 # Explicit grading avoids falling back to Google or the direct OpenAI API.
 defaultTest:
   options:
@@ -26,6 +22,13 @@ tests:
     vars:
       query: 'I draw my longsword and attack the red dragon!'
     assert:
+      # Check completed SDK tool executions, not tool names mentioned in the answer.
+      - type: javascript
+        metric: Tool call and arguments
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && calls.some(call =>
+            call.name === 'roll_dice' && call.arguments.sides === 20 && call.arguments.count === 1);
       - type: llm-rubric
         value: Response shows the attack roll and, if it hits, the damage roll, then describes the combat outcome dramatically
       - type: javascript
@@ -38,6 +41,12 @@ tests:
     vars:
       query: 'What are my character stats and current HP?'
     assert:
+      - type: javascript
+        metric: Tool call and arguments
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && calls.some(call =>
+            call.name === 'check_character_stats' && call.arguments.playerId === 'player1');
       - type: contains-any
         value: ['Thorin', 'Fighter', 'level 5']
       - type: javascript
@@ -49,6 +58,12 @@ tests:
     vars:
       query: 'What weapons and items do I have with me?'
     assert:
+      - type: javascript
+        metric: Tool call and arguments
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && calls.some(call =>
+            call.name === 'check_inventory' && call.arguments.playerId === 'player1');
       - type: contains
         value: Longsword
       - type: contains
@@ -62,6 +77,12 @@ tests:
     vars:
       query: 'I cautiously enter the ancient crypt, torch held high'
     assert:
+      - type: javascript
+        metric: Tool call and arguments
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && calls.some(call =>
+            call.name === 'describe_scene' && call.arguments.location === 'crypt');
       - type: llm-rubric
         value: Response paints vivid atmospheric scene with sensory details and presents clear choices
       - type: javascript
@@ -76,6 +97,12 @@ tests:
     vars:
       query: 'I step on a pressure plate and hear a click. What happens?'
     assert:
+      - type: javascript
+        metric: Tool call and arguments
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && calls.some(call =>
+            call.name === 'roll_dice' && call.arguments.sides === 20 && call.arguments.count === 1);
       - type: llm-rubric
         value: Response triggers a trap, identifies the saving throw, shows its dice roll, and describes the outcome
       - type: javascript
@@ -87,6 +114,12 @@ tests:
     vars:
       query: 'I attack the goblin with my longsword!'
     assert:
+      - type: javascript
+        metric: Tool call and arguments
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && calls.some(call =>
+            call.name === 'roll_dice' && call.arguments.sides === 20 && call.arguments.count === 1);
       - type: llm-rubric
         value: Response includes attack roll mechanics and outcome description
 
@@ -94,6 +127,12 @@ tests:
     vars:
       query: 'I attempt to seduce the ancient dragon using interpretive dance'
     assert:
+      - type: javascript
+        metric: Tool call and arguments
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && calls.some(call =>
+            call.name === 'roll_dice' && call.arguments.sides === 20 && call.arguments.count === 1);
       - type: llm-rubric
         value: DM responds with humor and wit, identifies an appropriate ability check, and shows its dice roll and outcome
 
@@ -101,6 +140,11 @@ tests:
     vars:
       query: 'I want to take a short rest to recover'
     assert:
+      - type: javascript
+        metric: No premature dice roll
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && !calls.some(call => call.name === 'roll_dice');
       - type: llm-rubric
         value: Response explains short-rest recovery and asks whether or how many Hit Dice the player wants to spend, without spending them for the player
 
@@ -108,6 +152,12 @@ tests:
     vars:
       query: 'I examine the Mysterious Amulet in my inventory more closely'
     assert:
+      - type: javascript
+        metric: Tool call and arguments
+        value: |
+          const calls = context.metadata?.toolCalls;
+          return Array.isArray(calls) && calls.some(call =>
+            call.name === 'check_inventory' && call.arguments.playerId === 'player1');
       - type: contains-any
         value: ['undead', 'glow', 'amulet']
       - type: llm-rubric
