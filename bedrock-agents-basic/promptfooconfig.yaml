@@ -7,6 +7,7 @@ prompts:
 providers:
   - id: openai:agents:dungeon-master
     config:
+      apiKeyRequired: false  # The exported agent authenticates with AWS IAM.
       agent: file://./agents/dungeon-master-agent.ts
       maxTurns: 20
       tracing: false  # No export to the OpenAI tracing service

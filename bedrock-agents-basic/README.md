@@ -32,7 +32,7 @@ The Agents SDK stays on 0.14.1 because Promptfoo 0.125.1 requires that version. 
 
 - `agents/dungeon-master-agent.ts` exports an Agents SDK agent whose `OpenAIResponsesModel` uses the OpenAI client's native Bedrock provider, the Runtime endpoint, and AWS SigV4 signing. The model is `us.openai.gpt-6-luna`.
 - `tools/game-tools.ts` keeps the dice, inventory, character-stat, and scene tools. Tool execution stays local and the SDK handles subsequent model turns.
-- `promptfooconfig.yaml` selects `openai:agents:dungeon-master` to run that local SDK agent. This provider name describes the runner, not the backend used by the exported model. Its rubric judge is explicitly `bedrock:converse:us.openai.gpt-6-luna`.
+- `promptfooconfig.yaml` selects `openai:agents:dungeon-master` to run that local SDK agent. This provider name describes the runner, not the backend used by the exported model. The runner sets `apiKeyRequired: false` because the exported model authenticates with AWS IAM rather than an OpenAI API key. Its rubric judge is explicitly `bedrock:converse:us.openai.gpt-6-luna`.
 - Each test starts a fresh agent run. Inventory, character data, and scenes are fixtures; game state is not persisted.
 
 The agent uses `store: false`. SDK tracing is disabled so this example does not export traces to OpenAI.
