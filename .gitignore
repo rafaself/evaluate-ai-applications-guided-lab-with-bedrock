@@ -21,3 +21,8 @@ results.json
 *.db-shm
 *.db-wal
 .DS_Store
+
+# Python notebook artifacts
+.ipynb_checkpoints/
+.pytest_cache/
+*.egg-info/

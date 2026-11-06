@@ -1,0 +1,248 @@
+{
+  "notice": "All answers and grades here are hand-authored synthetic teaching fixtures, not recorded model outputs.",
+  "translations": [
+    "Bonjour le monde",
+    "\u00bfD\u00f3nde est\u00e1 la biblioteca?"
+  ],
+  "riddles": [
+    "The answer is echo.",
+    "Everyone on the boat is married, so there is no single person.",
+    "The answer is darkness.",
+    "The answer is keyboard.",
+    "The answer is fire.",
+    "The answer is stamp.",
+    "The word ton is heavy; reversed, it spells not.",
+    "The answer is coffin.",
+    "The answer is joke.",
+    "A piano has keys but cannot open locks.",
+    "The answer is breath.",
+    "The answer is cloud.",
+    "The answer is graphite.",
+    "The answer is David.",
+    "The answer is breath."
+  ],
+  "rag": [
+    {
+      "answer": "Non-travel expenses up to $500 do not require pre-approval. Expenses exceeding $500 need manager approval; all travel expenses need approval regardless of amount.",
+      "grades": {
+        "factuality": [
+          {
+            "statement": "The employee manager approves expenses.",
+            "supported": true,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          }
+        ],
+        "context-recall": [
+          {
+            "statement": "The general threshold is $500.",
+            "supported": true,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "Talk to Fred before submitting anything.",
+            "supported": false,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          }
+        ],
+        "context-relevance": [
+          {
+            "statement": "**Acme Inc. - Reimbursement Policy**",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "At Acme Inc., we appreciate the efforts our team members put into conducting business on our behalf. We recognize that this often involves various expenses. To streamline the management and reimbursement of these expenses, we adhere to the following policy:",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "1. **Eligibility for Reimbursement**: Expenses that are eligible for reimbursement include, but are not limited to, travel (airfare, train, taxi, and car rental), meals, accommodation, conference fees, and other business-related expenses. Personal expenses are not eligible for reimbursement.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "2. **Receipts Required**: Employees are required to provide original, itemized receipts for all expenses. Non-itemized receipts or credit card statements will not be accepted. For meal expenses, please include the names of all attendees and the specific business purpose.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "3. **Pre-Approval**: Expenses exceeding $500 must be pre-approved by the employee's manager. All travel-related expenses, such as airfare, accommodation, and car rentals, need pre-approval, regardless of the amount.",
+            "supported": true,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "4. **Reimbursement Submission Deadline**: Employees must submit their expense reports by the first business day of the month following the month in which the expense was incurred. For example, if an expense was incurred in October, the expense report should be submitted by the first business day of November.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "5. **Reimbursement Processing Time**: Reimbursements will typically be processed within two weeks of the submission deadline.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "6. **Non-Compliance**: Non-compliance with this policy may result in delayed or denied reimbursements. Repeated non-compliance may lead to disciplinary action.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "7. **Policy Exceptions**: Any exceptions to this policy must be pre-approved by the Finance Department before the expense is incurred.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "This policy serves to ensure fair treatment of all employees and appropriate use of company funds. If you have any questions regarding this policy or a specific expense, please reach out to the HR or Finance Department.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          }
+        ],
+        "context-faithfulness": [
+          {
+            "statement": "Non-travel threshold is $500.",
+            "supported": true,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "Manager approves expenses above $500.",
+            "supported": true,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "Travel always needs approval.",
+            "supported": true,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          }
+        ]
+      }
+    },
+    {
+      "answer": "Eligible employees may take up to 4 months (16 weeks) of maternity leave.",
+      "grades": {
+        "factuality": [
+          {
+            "statement": "Maternity leave is 4 months.",
+            "supported": true,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          }
+        ],
+        "context-recall": [
+          {
+            "statement": "The company offers 4 months maternity leave.",
+            "supported": true,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "Elephants get 22 months maternity leave.",
+            "supported": false,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          }
+        ],
+        "context-relevance": [
+          {
+            "statement": "# Maternity Leave Policy",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "At Acme Inc, we understand the importance of work-life balance, particularly during significant life events such as welcoming a new child. We are proud to support our employees with a comprehensive Maternity Leave Policy.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "## Policy Overview",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "Eligible employees may take up to 4 months (16 weeks) of Maternity Leave. This leave can be used for prenatal care, recovery from childbirth, and bonding with the new child.",
+            "supported": true,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "## Eligibility",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "To be eligible for Maternity Leave, an employee must have been employed with Acme Inc for at least 12 months and have worked a minimum of 1,250 hours during the 12-month period immediately preceding the leave.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "## Leave Duration",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "Maternity Leave can be taken for a continuous period of up to 4 months or, with the approval of the employee's supervisor and Human Resources, intermittently or on a reduced work schedule.",
+            "supported": true,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "## Pay During Leave",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "The first 8 weeks of Maternity Leave will be paid at 100% of the employee's regular base salary. The remaining 8 weeks will be unpaid. During the unpaid portion of leave, employees may choose to use any accrued vacation or sick leave to continue receiving income.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "## Benefits During Leave",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "During the Maternity Leave, [Your Company Name] will continue to provide health insurance benefits as if the employee were still working.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "## Return to Work",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "Upon return from Maternity Leave, employees will be reinstated to their original or an equivalent position with equivalent pay, benefits, and other employment terms.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "## Procedure for Requesting Maternity Leave",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "Employees should notify their supervisor and Human Resources of their intention to take Maternity Leave at least 30 days prior to the proposed start of the leave. If the need for leave is not foreseeable, employees should provide notice as soon as practicable.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          },
+          {
+            "statement": "This policy is designed to support the wellbeing of our employees and their families. If you have any questions or need further information, please contact the Human Resources Department.",
+            "supported": false,
+            "reason": "Synthetic paragraph annotation; inspect the policy to verify."
+          }
+        ],
+        "context-faithfulness": [
+          {
+            "statement": "Eligible employees receive up to 4 months or 16 weeks.",
+            "supported": true,
+            "reason": "Synthetic teaching annotation; inspect the policy to verify."
+          }
+        ]
+      }
+    }
+  ],
+  "agents": [
+    "Attack roll: 1d20+6, rolled [12], modifier +6, total 18. If that hits the dragon AC, damage roll: 1d8+4, rolled [5], modifier +4, total 9. Your longsword flashes against crimson scales!",
+    "Thorin is a level 5 Fighter with 42 current HP out of 47, AC 18, and Strength 16.",
+    "You have a Longsword +1, Chain Mail, 3 Potion of Healing bottles, thieves tools, rope, torches, a Mysterious Amulet, and 47 gold.",
+    "Your torch casts long shadows across the dark crypt. Rows of stone sarcophagi stand open, with fresh footprints leading into the gloom. Investigate the footprints, examine the coffins, or proceed cautiously?",
+    "A dart trap snaps! Dexterity saving throw: 1d20+1, rolled [12], modifier +1, total 13. Against DC 12, you twist aside and avoid the darts.",
+    "Attack roll: 1d20+6, rolled [12], modifier +6, total 18. Your blade strikes the goblin. Damage roll: 1d8+4, rolled [5], modifier +4, total 9.",
+    "A performance ability check: 1d20-1, rolled [12], modifier -1, total 11. The ancient dragon applauds with one claw, amused rather than seduced.",
+    "A short rest lets you recover by spending Hit Dice and regain short-rest features. Would you like to spend Hit Dice, and if so how many?",
+    "The Mysterious Amulet glows faintly near undead. Its full purpose is unknown; examine the markings, or approach the crypt to observe its glow?"
+  ]
+}

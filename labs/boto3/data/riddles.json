@@ -1,0 +1,177 @@
+[
+  {
+    "id": "riddles-01",
+    "description": "",
+    "riddle": "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "echo"
+      },
+      {
+        "type": "llm-rubric",
+        "value": "Do not apologize"
+      }
+    ]
+  },
+  {
+    "id": "riddles-02",
+    "description": "",
+    "riddle": "You see a boat filled with people. It has not sunk, but when you look again you don't see a single person on the boat. Why?",
+    "assertions": [
+      {
+        "type": "llm-rubric",
+        "value": "explains that there are no single people (they are all married)"
+      }
+    ]
+  },
+  {
+    "id": "riddles-03",
+    "description": "",
+    "riddle": "The more of this there is, the less you see. What is it?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "darkness"
+      }
+    ]
+  },
+  {
+    "id": "riddles-04",
+    "description": "",
+    "riddle": "I have keys but no locks. I have space but no room. You can enter, but can't go outside. What am I?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "keyboard"
+      }
+    ]
+  },
+  {
+    "id": "riddles-05",
+    "description": "",
+    "riddle": "I am not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me. What am I?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "fire"
+      }
+    ]
+  },
+  {
+    "id": "riddles-06",
+    "description": "",
+    "riddle": "What can travel around the world while staying in a corner?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "stamp"
+      }
+    ]
+  },
+  {
+    "id": "riddles-07",
+    "description": "",
+    "riddle": "Forward I am heavy, but backward I am not. What am I?",
+    "assertions": [
+      {
+        "type": "llm-rubric",
+        "value": "Identifies the word ton and explains that reversing it spells not."
+      }
+    ]
+  },
+  {
+    "id": "riddles-08",
+    "description": "",
+    "riddle": "The person who makes it, sells it. The person who buys it, never uses it. The person who uses it, doesn't know they're using it. What is it?",
+    "assertions": [
+      {
+        "type": "icontains-any",
+        "value": [
+          "coffin",
+          "casket"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "riddles-09",
+    "description": "",
+    "riddle": "I can be cracked, made, told, and played. What am I?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "joke"
+      }
+    ]
+  },
+  {
+    "id": "riddles-10",
+    "description": "",
+    "riddle": "What has keys but can't open locks?",
+    "assertions": [
+      {
+        "type": "llm-rubric",
+        "value": "Identifies an object with keys that do not open locks, such as a piano or keyboard."
+      }
+    ]
+  },
+  {
+    "id": "riddles-11",
+    "description": "",
+    "riddle": "I'm light as a feather, yet the strongest person can't hold me for much more than a minute. What am I?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "breath"
+      }
+    ]
+  },
+  {
+    "id": "riddles-12",
+    "description": "",
+    "riddle": "I can fly without wings, I can cry without eyes. Whenever I go, darkness follows me. What am I?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "cloud"
+      }
+    ]
+  },
+  {
+    "id": "riddles-13",
+    "description": "",
+    "riddle": "I am taken from a mine, and shut up in a wooden case, from which I am never released, and yet I am used by almost every person. What am I?",
+    "assertions": [
+      {
+        "type": "icontains-any",
+        "value": [
+          "graphite",
+          "pencil lead"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "riddles-14",
+    "description": "",
+    "riddle": "David's father has three sons: Snap, Crackle, and _____? What is the name of the third son?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "David"
+      }
+    ]
+  },
+  {
+    "id": "riddles-15",
+    "description": "",
+    "riddle": "I am light as a feather, but even the world's strongest man couldn't hold me for much longer than a minute. What am I?",
+    "assertions": [
+      {
+        "type": "icontains",
+        "value": "breath"
+      }
+    ]
+  }
+]

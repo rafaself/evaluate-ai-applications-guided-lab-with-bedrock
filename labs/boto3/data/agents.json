@@ -1,0 +1,182 @@
+[
+  {
+    "id": "agents-01",
+    "description": "Dragon combat with attack roll",
+    "query": "I draw my longsword and attack the red dragon!",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "Tool call and arguments",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && calls.some(call =>\n  call.name === 'roll_dice' && call.arguments.sides === 20 && call.arguments.count === 1);\n"
+      },
+      {
+        "type": "llm-rubric",
+        "value": "Response shows the attack roll and, if it hits, the damage roll, then describes the combat outcome dramatically"
+      },
+      {
+        "type": "javascript",
+        "value": "// Check that the answer shows dice mechanics and the attack outcome.\nreturn (output.toLowerCase().includes('roll') || output.toLowerCase().includes('d20')) &&\n       (output.toLowerCase().includes('attack') || output.toLowerCase().includes('hit'));\n"
+      }
+    ]
+  },
+  {
+    "id": "agents-02",
+    "description": "Check character stats before battle",
+    "query": "What are my character stats and current HP?",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "Tool call and arguments",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && calls.some(call =>\n  call.name === 'check_character_stats' && call.arguments.playerId === 'player1');\n"
+      },
+      {
+        "type": "contains-any",
+        "value": [
+          "Thorin",
+          "Fighter",
+          "level 5"
+        ]
+      },
+      {
+        "type": "javascript",
+        "value": "// Should mention HP or hit points\nreturn output.toLowerCase().includes('hp') || output.toLowerCase().includes('hit points');\n"
+      }
+    ]
+  },
+  {
+    "id": "agents-03",
+    "description": "Check inventory and equipment",
+    "query": "What weapons and items do I have with me?",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "Tool call and arguments",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && calls.some(call =>\n  call.name === 'check_inventory' && call.arguments.playerId === 'player1');\n"
+      },
+      {
+        "type": "contains",
+        "value": "Longsword"
+      },
+      {
+        "type": "contains",
+        "value": "Potion"
+      },
+      {
+        "type": "javascript",
+        "value": "// Should mention gold\nreturn output.includes('gold') || output.includes('gp');\n"
+      }
+    ]
+  },
+  {
+    "id": "agents-04",
+    "description": "Enter ominous dungeon with scene description",
+    "query": "I cautiously enter the ancient crypt, torch held high",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "Tool call and arguments",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && calls.some(call =>\n  call.name === 'describe_scene' && call.arguments.location === 'crypt');\n"
+      },
+      {
+        "type": "llm-rubric",
+        "value": "Response paints vivid atmospheric scene with sensory details and presents clear choices"
+      },
+      {
+        "type": "javascript",
+        "value": "// Should be descriptive (>100 chars) and mention darkness/light\nreturn output.length > 100 &&\n       (output.toLowerCase().includes('dark') ||\n        output.toLowerCase().includes('torch') ||\n        output.toLowerCase().includes('shadows'));\n"
+      }
+    ]
+  },
+  {
+    "id": "agents-05",
+    "description": "Saving throw during trap",
+    "query": "I step on a pressure plate and hear a click. What happens?",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "Tool call and arguments",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && calls.some(call =>\n  call.name === 'roll_dice' && call.arguments.sides === 20 && call.arguments.count === 1);\n"
+      },
+      {
+        "type": "llm-rubric",
+        "value": "Response triggers a trap, identifies the saving throw, shows its dice roll, and describes the outcome"
+      },
+      {
+        "type": "javascript",
+        "value": "// Should mention saving throw or roll\nreturn output.toLowerCase().includes('save') || output.toLowerCase().includes('saving throw');\n"
+      }
+    ]
+  },
+  {
+    "id": "agents-06",
+    "description": "Critical hit celebration",
+    "query": "I attack the goblin with my longsword!",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "Tool call and arguments",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && calls.some(call =>\n  call.name === 'roll_dice' && call.arguments.sides === 20 && call.arguments.count === 1);\n"
+      },
+      {
+        "type": "llm-rubric",
+        "value": "Response includes attack roll mechanics and outcome description"
+      }
+    ]
+  },
+  {
+    "id": "agents-07",
+    "description": "Ridiculous player action",
+    "query": "I attempt to seduce the ancient dragon using interpretive dance",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "Tool call and arguments",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && calls.some(call =>\n  call.name === 'roll_dice' && call.arguments.sides === 20 && call.arguments.count === 1);\n"
+      },
+      {
+        "type": "llm-rubric",
+        "value": "DM responds with humor and wit, identifies an appropriate ability check, and shows its dice roll and outcome"
+      }
+    ]
+  },
+  {
+    "id": "agents-08",
+    "description": "Request for short rest",
+    "query": "I want to take a short rest to recover",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "No premature dice roll",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && !calls.some(call => call.name === 'roll_dice');\n"
+      },
+      {
+        "type": "llm-rubric",
+        "value": "Response explains short-rest recovery and asks whether or how many Hit Dice the player wants to spend, without spending them for the player"
+      }
+    ]
+  },
+  {
+    "id": "agents-09",
+    "description": "Mysterious magic item examination",
+    "query": "I examine the Mysterious Amulet in my inventory more closely",
+    "assertions": [
+      {
+        "type": "javascript",
+        "metric": "Tool call and arguments",
+        "value": "const calls = context.metadata?.toolCalls;\nreturn Array.isArray(calls) && calls.some(call =>\n  call.name === 'check_inventory' && call.arguments.playerId === 'player1');\n"
+      },
+      {
+        "type": "contains-any",
+        "value": [
+          "undead",
+          "glow",
+          "amulet"
+        ]
+      },
+      {
+        "type": "llm-rubric",
+        "value": "Response provides intriguing details about the magic item"
+      }
+    ]
+  }
+]
